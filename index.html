@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <title>Digital and Analog Clock</title>
+
+    <link rel="stylesheet" href="./main.css">
+    <style>
+        .btnActive{
+            border: 2px solid;
+            box-shadow: 2px 2px 14px rgb(185,29,28);
+        }
+        .active{
+            scale: 1;
+        }
+        #analogWatch{
+            background: url(clock.png);
+            background-size: 100%;
+            width: 30vw;
+            height:30vw;
+            position: relative;
+            background-repeat: no-repeat;
+        }
+        .hourHand,.minuteHand,.secondHand{
+            position: absolute;
+            border-radius: 10px;
+            background-color: black;
+            transform-origin: bottom;
+        }
+        .hourHand{
+            width: 2%;
+            height: 27%;
+            top: 23%;
+            left: 49.4%;
+            
+            
+        }
+        .minuteHand{
+            width: 1.5%;
+            height: 28%;
+            top: 21%;
+            left: 49.6%;
+            opacity: 0.8;
+            
+        }
+        .secondHand{
+            width: 1.2%;
+            height: 32%;
+            top: 17%;
+            left: 49.8%;
+            opacity: 0.7;
+        }
+        .center{
+            border-radius: 100%;
+            position: absolute;
+            top: 46%;
+            left: 47%;
+            background-color: black;
+            width: 7%;
+            height: 7%;
+        }
+        @media (max-width:500px){
+            #analogWatch{
+            width: 60vw;
+            height:60vw;
+            }
+        }
+        @media (max-width:250px){
+            button{
+                padding: 4px !important;
+            }
+            #digitalWatch{
+                padding: 4px !important;
+                gap: 4px !important;
+
+            }
+            .time{
+                padding: 1px 2px 1px 2px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex justify-center items-center h-screen w-screen bg-black">
+        <div class=" absolute top-4 flex gap-4  p-4  text-red-500 text-xl sm:text-3xl transition-all duration-200 z-20">
+            <button class=" border-red-700 p-4 rounded-xl shadow-md transition-all duration-200" id="Digital" onclick="btnHandler()">Digital</button>
+            <button class=" border-red-700 p-4 rounded-xl shadow-md transition-all duration-200" id="Analog" onclick="btnHandler()">Analog</button>
+        </div>
+
+        <div class="relative flex justify-center items-center ">
+        <div class=" flex gap-4 border border-red-700 p-4  text-red-500 text-xl sm:text-3xl scale-0 transition-all duration-200 absolute" id="digitalWatch">
+            <h1 id="hrs" class="  time border-r-2 px-2 py-1 sm:px-4 sm:py-2 border-red-700 border-double transition-all duration-200"></h1>
+            <h1 id="min" class="  time border-r-2 px-2 py-1 sm:px-4 sm:py-2 border-red-700 border-double transition-all duration-200"></h1>
+            <h1 id="sec" class="  time border-r-2 px-2 py-1 sm:px-4 sm:py-2 border-red-700 border-double transition-all duration-200"></h1>
+            <h1 id="ampm" class=" time px-2 py-1 sm:px-4 sm:py-2"></h1>
+        </div>
+        <div class=" flex gap-4  p-4  text-red-500 text-xl sm:text-3xl scale-0 transition-all duration-200 md:mt-[120px] z-10" id="analogWatch">
+            <div class="center"></div>
+            <div class="hourHand"  id="hrshands"></div>
+            <div class="minuteHand" id="minhands"></div>
+            <div class="secondHand" id="sechands"></div>
+        </div>
+    </div>
+    </div>
+    <script>
+        const hrs=document.getElementById('hrs');
+        const min=document.getElementById("min");
+        const sec=document.getElementById("sec");
+        const ampm=document.getElementById("ampm");
+        const analogWatch=document.getElementById("analogWatch")
+        const digitalWatch=document.getElementById("digitalWatch")
+        const hrshands=document.getElementById("hrshands");
+        const minhands=document.getElementById("minhands");
+        const sechands=document.getElementById("sechands");
+        let currentBtn=document.getElementById("Digital");
+        currentBtn.classList.add('btnActive');
+        showPage();
+        setInterval(()=>{
+            let date=new Date();
+            let hour=date.getHours();
+            let minute=date.getMinutes();
+            let second=date.getSeconds();
+            hrs.innerText=hour>12?(hour%12)<10?("0"+hour%12):(hour%12):hour;
+            min.innerText=minute<10?"0"+minute:minute;
+            sec.innerText=second<10?"0"+second:second;
+            ampm.innerText=hour<12? "AM" : "PM";
+
+            let hrotation=30*hour+minute/2;
+            let mrotation=6*minute+ 0.1 * second;
+            let srotation=6*second;
+            hrshands.style.transform=`rotate(${hrotation}deg)`
+            minhands.style.transform=`rotate(${mrotation}deg)`
+            sechands.style.transform=`rotate(${srotation}deg)`
+
+            
+
+
+        },1000)
+
+        function btnHandler(){
+            const clickedBtn=event.target;
+            if(currentBtn!==clickedBtn){
+            currentBtn.classList.remove('btnActive');
+            clickedBtn.classList.add( 'btnActive');
+            currentBtn=clickedBtn;
+            showPage();
+            }
+        }
+        function showPage(){
+            console.log(currentBtn.id);
+            if(currentBtn.id==="Analog"){
+                analogWatch.classList.add("scale-1");
+                analogWatch.classList.remove("scale-0");
+                digitalWatch.classList.remove("scale-1");
+                digitalWatch.classList.add("scale-0");
+                console.log("Changing  to Analog Page");
+                console.log(analogWatch)
+            }else{
+                analogWatch.classList.remove("scale-1");
+                analogWatch.classList.add("scale-0");
+                digitalWatch.classList.add("scale-1");
+                digitalWatch.classList.remove("scale-0");
+
+                console.log("Changing to Digital Page");
+                console.log(digitalWatch);
+            }
+        }
+    </script>
+</body>
+
+
+</html>
