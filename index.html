@@ -18,7 +18,7 @@
             scale: 1;
         }
         #analogWatch{
-            background: url(clock.png);
+            background: url(clock\ template.svg);
             background-size: 100%;
             width: 30vw;
             height:30vw;
@@ -28,7 +28,7 @@
         .hourHand,.minuteHand,.secondHand{
             position: absolute;
             border-radius: 10px;
-            background-color: black;
+            background-color: white;
             transform-origin: bottom;
         }
         .hourHand{
@@ -54,12 +54,12 @@
             left: 49.8%;
             opacity: 0.7;
         }
-        .center{
+        #center{
             border-radius: 100%;
             position: absolute;
             top: 46%;
             left: 47%;
-            background-color: black;
+            background-color: white;
             width: 7%;
             height: 7%;
         }
@@ -99,7 +99,7 @@
             <h1 id="sec" class="  time border-r-2 px-2 py-1 sm:px-4 sm:py-2 border-red-700 border-double transition-all duration-200"></h1>
             <h1 id="ampm" class=" time px-2 py-1 sm:px-4 sm:py-2"></h1>
         </div>
-        <div class=" flex gap-4  p-4  text-red-500 text-xl sm:text-3xl scale-0 transition-all duration-200 md:mt-[120px] z-10" id="analogWatch">
+        <div class=" flex gap-4  p-4  text-red-500 border rounded-full border-red-700 text-xl sm:text-3xl scale-0 transition-all duration-200 md:mt-[120px] z-10" id="analogWatch">
             <div class="center"></div>
             <div class="hourHand"  id="hrshands"></div>
             <div class="minuteHand" id="minhands"></div>
@@ -131,7 +131,7 @@
             ampm.innerText=hour<12? "AM" : "PM";
 
             let hrotation=30*hour+minute/2;
-            let mrotation=6*minute+ 0.1 * second;
+            let mrotation=6*minute;
             let srotation=6*second;
             hrshands.style.transform=`rotate(${hrotation}deg)`
             minhands.style.transform=`rotate(${mrotation}deg)`
